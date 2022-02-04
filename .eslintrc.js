@@ -16,14 +16,18 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-      env: {
-        mocha: true
-      }
-    }
-  ]
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'space-before-function-paren': 0,
+    'vue/multi-word-component-names': 'off',
+    // 严格的检查缩进问题
+    index: 0,
+    // 强制在注释中 // 或 /* 使用一致的空格
+    'spaced-comment': 0,
+    //引入模块没有放入顶部
+    'import/first': 0,
+    //已定义但是没有使用，'scope' is defined but never used
+    'vue/no-unused-vars': 0
+  }
 }
