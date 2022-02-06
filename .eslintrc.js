@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'space-before-function-paren': 0,
     'vue/multi-word-component-names': 'off',
+    'prettier/prettier': 'off',
     // 严格的检查缩进问题
     index: 0,
     // 强制在注释中 // 或 /* 使用一致的空格
