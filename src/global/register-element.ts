@@ -1,10 +1,54 @@
 import { App } from 'vue'
 
-import 'element-plus/theme-chalk/base.css'
+import 'element-plus/dist/index.css'
 
-import { ElButton } from 'element-plus'
+import {
+  ElButton,
+  ElCheckbox,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElLink,
+  ElRadio,
+  ElTabPane,
+  ElTabs,
+  ElIcon,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElDropdown,
+  ElAvatar,
+  ElDropdownMenu,
+  ElDropdownItem
+} from 'element-plus/lib/components'
 
-const components = [ElButton]
+const components = [
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElRadio,
+  ElTabs,
+  ElTabPane,
+  ElCheckbox,
+  ElLink,
+  ElIcon,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElDropdown,
+  ElAvatar,
+  ElDropdownMenu,
+  ElDropdownItem
+]
 
 export default function (app: App): void {
   for (const component of components) {

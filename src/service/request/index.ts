@@ -1,8 +1,8 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import { ICNIntercepts, ICNRequestConfig } from './type'
-import { ElLoading } from 'element-plus'
-// import { ILoadingInstance } from 'element-plus/lib/loading/src/loading.type'
+import { ElLoading } from 'element-plus/lib/components'
+import type { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 
 const DEFAULT_LOADING = true
 
@@ -10,7 +10,7 @@ class CNRequest {
   instance: AxiosInstance
   interceptors?: ICNIntercepts
   showLoading: boolean
-  loading?: any
+  loading?: LoadingInstance
 
   constructor(config: ICNRequestConfig) {
     // 创建axios实例

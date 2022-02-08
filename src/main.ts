@@ -4,6 +4,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { globalRegister } from './global'
+import 'normalize.css'
+import './assets/css/index.less'
+import { setupStore } from './store'
 
 import cnRequest from './service'
 // import './service/axios_demo'
@@ -21,11 +24,12 @@ const app = createApp(App)
 app.use(globalRegister)
 app.use(router)
 app.use(store)
+setupStore()
 // app.use(ElementPlus)
 app.mount('#app')
 
 // cnRequest.request({
-//   url: '/home/multidata',
+//   url: '/main/multidata',
 //   method: 'GET',
 //   interceptors: {
 //     requestInterceptor: (config) => {
@@ -39,19 +43,19 @@ app.mount('#app')
 //   }
 // })
 
-interface IDataType {
-  data: any
-  returnCode: string
-  success: boolean
-}
+// interface IDataType {
+//   data: any
+//   returnCode: string
+//   success: boolean
+// }
 
 // 返回new Promise
-cnRequest.get<IDataType>({
-  url: '/home/multidata',
-  showLoading: true
-}).then(res => {
-  console.log(res.data)
-}).catch(err => {
-  console.log(err.returnCode)
-})
+// cnRequest.get<IDataType>({
+//   url: '/main/multidata',
+//   showLoading: true
+// }).then(res => {
+//   console.log(res.data)
+// }).catch(err => {
+//   console.log(err.returnCode)
+// })
 

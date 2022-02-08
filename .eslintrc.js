@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'space-before-function-paren': 0,
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     'prettier/prettier': 'off',
     // 严格的检查缩进问题
     index: 0,
