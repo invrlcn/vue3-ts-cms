@@ -7,20 +7,27 @@
       </el-icon>
     </div>
     <div class="content">
-      <div>面包屑</div>
+      <div>
+        <cn-bread-crumb :breadcrumbs="breadcrumbs" />
+      </div>
       <user-info />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { Fold, Expand } from '@element-plus/icons-vue'
 import userInfo from './cnps/UserInfo.vue'
+import CnBreadCrumb from '@/base-ui/breadcrumb'
+import { pathMapBreadcrumbs } from '@/utils/map-menus'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   emits: ['FoldChange'],
   components: {
+    CnBreadCrumb,
     userInfo,
     Fold,
     Expand
@@ -32,8 +39,18 @@ export default defineComponent({
       emit('FoldChange', isFold.value)
     }
 
+    // 面包屑的数据: [{name: , path: }]
+    const store = useStore()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+      return pathMapBreadcrumbs(userMenus, currentPath)
+    })
+
     return {
       isFold,
+      breadcrumbs,
       handleFoldClick
     }
   }

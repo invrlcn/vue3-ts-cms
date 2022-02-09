@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { IBreadcrumb } from '@/base-ui/breadcrumb/types'
 
+const firstMenu: any = null
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
   // 1.先去加载默认所有的routes
@@ -30,3 +32,30 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 
   return routes
 }
+
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadcrumbs)
+  return breadcrumbs
+}
+
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const firstMenu = pathMapToMenu(menu.children ?? [], currentPath)
+      if (firstMenu) {
+        breadcrumbs?.push({ name: menu.name })
+        breadcrumbs?.push({ name: firstMenu.name })
+        return firstMenu
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
+}
+
+export { firstMenu }

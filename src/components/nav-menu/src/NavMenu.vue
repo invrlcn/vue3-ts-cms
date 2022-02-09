@@ -4,7 +4,7 @@
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
       <span v-if="!collapse" class="title">Vue3+TS</span>
     </div>
-    <el-menu default-active="2" class="el-menu-vertical" :collapse="collapse" background-color="#0c2135" text-color="#b7bdc3" active-text-color="#0a60bd">
+    <el-menu :default-active="defaultActive" class="el-menu-vertical" :collapse="collapse" background-color="#0c2135" text-color="#b7bdc3" active-text-color="#0a60bd">
       <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单 -->
         <template v-if="item.type === 1">
@@ -46,15 +46,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
+import { pathMapToMenu } from '@/utils/map-menus'
 import {
   Platform,
   Setting,
   ShoppingBag,
   ChatLineRound
 } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 // vuex - typescript  => pinia
 
@@ -74,11 +75,16 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+    const currentPath = route.path
+
     const userMenus = computed(() => {
       return store.state.login.userMenus
     })
+    // defaultActive
+    const menu = pathMapToMenu(userMenus.value, currentPath)
+    const defaultActive = ref(menu.id + '')
     const handleMenuItemClick = (item: any) => {
-      console.log(item)
       router.push({
         path: item.url ?? '/NotFound'
       })
@@ -86,6 +92,7 @@ export default defineComponent({
 
     return {
       userMenus,
+      defaultActive,
       handleMenuItemClick
     }
   }

@@ -22,9 +22,10 @@ const app = createApp(App)
 
 // 注册element-plus/其他
 app.use(globalRegister)
+setupStore()
 app.use(router)
 app.use(store)
-setupStore()
+
 // app.use(ElementPlus)
 app.mount('#app')
 
