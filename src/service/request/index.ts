@@ -128,16 +128,16 @@ class CNRequest {
     })
   }
 
-  get<T>(config: ICNRequestConfig<T>): Promise<T> {
+  get<T = any>(config: ICNRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
-  post<T>(config: ICNRequestConfig<T>): Promise<T> {
+  post<T = any>(config: ICNRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
-  delete<T>(config: ICNRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: ICNRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
-  patch<T>(config: ICNRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: ICNRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

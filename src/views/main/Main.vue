@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-container lass="main-content">
+    <el-container class="main-content">
       <el-aside :width="isCollapse ? '60px' : '210px'">
         <nav-menu :collapse="isCollapse" />
       </el-aside>
@@ -10,7 +10,7 @@
         </el-header>
         <el-main class="page-content">
           <div class="page-info">
-            <router-view />
+            <router-view></router-view>
           </div>
         </el-main>
       </el-container>

@@ -9,7 +9,7 @@
         <el-dropdown-menu>
           <el-dropdown-item>
             <el-icon>
-              <close />
+              <circle-close />
             </el-icon>
             退出登录
           </el-dropdown-item>
@@ -23,11 +23,11 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
-import { Close } from '@element-plus/icons-vue'
+import { CircleClose } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: {
-    Close
+    CircleClose
   },
   setup() {
     const store = useStore()

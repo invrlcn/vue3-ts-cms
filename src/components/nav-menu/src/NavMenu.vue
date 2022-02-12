@@ -78,12 +78,16 @@ export default defineComponent({
     const route = useRoute()
     const currentPath = route.path
 
+    // 获取userMenus数据
     const userMenus = computed(() => {
       return store.state.login.userMenus
     })
-    // defaultActive
+
+    // defaultActive: 默认选中
     const menu = pathMapToMenu(userMenus.value, currentPath)
     const defaultActive = ref(menu.id + '')
+
+    // 页面跳转
     const handleMenuItemClick = (item: any) => {
       router.push({
         path: item.url ?? '/NotFound'
