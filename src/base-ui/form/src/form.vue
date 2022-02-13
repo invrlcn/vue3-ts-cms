@@ -3,25 +3,25 @@
     <div class="header">
       <slot name="header"></slot>
     </div>
-    <el-form>
+    <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind:="colLayout">
             <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type ==='password'">
-                <el-input :placeholder="item.placeholder" v-bind="item.otherOptions" :show-password="item.type === 'password'" v-model="formData[`${item.field}`]">
+                <el-input :placeholder="item.placeholder" v-bind="item.otherOptions" :show-password="item.type === 'password'" v-model="formData[`${item.filed}`]">
 
                 </el-input>
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder" v-bind="item.otherOptions" style="width: 100%" v-model="formData[`${item.field}`]">
-                  <el-option v-for="option in item.options" :key="option.value" :value="option.value">
+                <el-select :placeholder="item.placeholder" v-bind="item.otherOptions" style="width: 100%" v-model="formData[`${item.filed}`]">
+                  <el-option v-for="option in item.options" :key="option.value" :value="option.value" :label="option.title">
                     {{option.title}}
                   </el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker style="width: 100%" v-bind="item.otherOptions" v-model="formData[`${item.field}`]">
+                <el-date-picker style="width: 100%" v-bind="item.otherOptions" v-model="formData[`${item.filed}`]">
 
                 </el-date-picker>
               </template>
@@ -76,6 +76,7 @@ export default defineComponent({
     watch(
       formData,
       (newValue) => {
+        console.log(newValue)
         emit('update: modelValue', newValue)
       },
       {

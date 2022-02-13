@@ -32,7 +32,8 @@ import {
   ElOption,
   ElDatePicker,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 } from 'element-plus/lib/components'
 
 const components = [
@@ -65,7 +66,8 @@ const components = [
   ElOption,
   ElDatePicker,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElPagination
 ]
 
 export default function (app: App): void {
