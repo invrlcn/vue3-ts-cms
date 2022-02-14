@@ -3,37 +3,25 @@ import { IForm } from '@/base-ui/form'
 export const searchFormConfig: IForm = {
   formItems: [
     {
-      filed: 'id',
-      type: 'input',
-      label: 'id',
-      placeholder: '请输入id'
-    },
-    {
       filed: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '商品名称',
+      placeholder: '请输入商品名称'
     },
     {
-      filed: 'realname',
+      filed: 'newPrice',
       type: 'input',
-      label: '真实姓名',
-      placeholder: '请输入真实姓名'
+      label: '价格',
+      placeholder: '请输入最新价格'
     },
     {
-      filed: 'cellphone',
-      type: 'input',
-      label: '电话号码',
-      placeholder: '请输入电话号码'
-    },
-    {
-      filed: 'enable',
+      filed: 'status',
       type: 'select',
-      label: '用户状态',
-      placeholder: '请选择用户状态',
+      label: '商品状态',
+      placeholder: '请选择商品状态',
       options: [
-        { title: '启用', value: 1 },
-        { title: '禁用', value: 0 }
+        { title: '上架', value: 1 },
+        { title: '下架', value: 0 }
       ]
     },
     {

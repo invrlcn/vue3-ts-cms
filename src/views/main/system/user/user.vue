@@ -1,35 +1,35 @@
 <template>
   <div class="user">
-    <page-search :searchFormConfig="searchFormConfig" />
-    <page-content :contentTableConfig="contentTableConfig" pageName="users"></page-content>
+    <page-search :searchFormConfig="searchFormConfig" @resetBtnClick="handleResetClick"
+      @queryBtnClick="handleQueryClick" />
+    <page-content :contentTableConfig="contentTableConfig" pageName="users" ref="pageContentRef">
+      <template #status="scope">
+        <el-button plain size="small" :type="scope.row.enable ? 'success' : 'danger' ">
+          {{scope.row.enable ? '启用' : '禁用'}}</el-button>
+      </template>
+    </page-content>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import PageSearch from '@/components/page-search'
-import PageContent from '@/components/page-content'
-
 import { searchFormConfig } from './config/search.config'
 import { contentTableConfig } from './config/content.config'
 
+import { usePageSearch } from '@/hooks/usePageSearch'
+
 export default defineComponent({
   name: 'users',
-  components: {
-    PageSearch,
-    PageContent
-  },
   setup() {
-    // 选中框监听
-    const handleSelectChange = (value: any) => {
-      console.log(value)
-    }
+    const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
 
     return {
       searchFormConfig,
       contentTableConfig,
-      handleSelectChange
+      pageContentRef,
+      handleResetClick,
+      handleQueryClick
     }
   }
 })

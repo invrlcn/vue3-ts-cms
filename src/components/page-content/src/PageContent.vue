@@ -1,20 +1,18 @@
 <template>
   <div class="page-content">
-    <cn-table :listData="dataList" v-bind="contentTableConfig" @selectionChange="handleSelectChange">
+    <cn-table :listData="dataList" v-bind="contentTableConfig" :countData="dataCount"
+      v-model:page="pageInfo">
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
         <el-button type="primary" size="default">{{BtnTitle}}</el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
-      <template #status="scope">
-        <el-button plain size="small" :type="scope.row.enable ? 'success' : 'danger' ">{{scope.row.enable ? '启用' : '禁用'}}</el-button>
-      </template>
       <template #createAt="scope">
         <span>{{$filters.formatTime(scope.row.createAt)}}</span>
       </template>
       <template #updateAt="scope">
-        <span>{{$filters.formatTime(scope.row.createAt)}}</span>
+        <span>{{$filters.formatTime(scope.row.updateAt)}}</span>
       </template>
       <template #handler>
         <div class="handle-btns">
@@ -22,12 +20,18 @@
           <el-button size="small" type="text">删除</el-button>
         </div>
       </template>
+      <!-- 在page-content中动态插入剩余的插槽 -->
+      <template v-for="key in otherPropSlots" :key="key.prop" #[key.slotName]="scope">
+        <template v-if="key.slotName">
+          <slot :name="key.slotName" :row="scope.row"></slot>
+        </template>
+      </template>
     </cn-table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import CnTable from '@/base-ui/table'
 import { useStore } from '@/store'
 
@@ -47,19 +51,38 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
-
-    // const userList = computed(() => store.state.system.userList)
+    // 双向绑定pageInfo
+    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    watch(pageInfo, () => getPageData())
+    // 发送请求
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
+    // 从vuex中获取数据
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
-
+    const dataCount = computed(() =>
+      store.getters[`system/pageCountData`](props.pageName)
+    )
+    // 获取其他的动态插槽名称
+    const otherPropSlots = props.contentTableConfig?.propList.filter(
+      (i: any) => {
+        if (i.slotName === 'createAt') return false
+        if (i.slotName === 'updateAt') return false
+        if (i.slotName === 'handler') return false
+        return true
+      }
+    )
+    // 新增按钮
     let BtnTitle = ''
     switch (props.pageName) {
       case 'users':
@@ -68,14 +91,20 @@ export default defineComponent({
       case 'role':
         BtnTitle = '新增角色'
         break
+      case 'goods':
+        BtnTitle = '新建商品'
+        break
       default:
         break
     }
 
     return {
-      // userList,
       dataList,
-      BtnTitle
+      dataCount,
+      pageInfo,
+      BtnTitle,
+      otherPropSlots,
+      getPageData
     }
   }
 })
@@ -84,6 +113,6 @@ export default defineComponent({
 <style scoped lang='less'>
 .page-content {
   padding: 20px;
-  border-top: 20px solid #fff;
+  border-top: 20px solid #f5f5f5;
 }
 </style>

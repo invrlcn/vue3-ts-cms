@@ -3,37 +3,25 @@ import { IForm } from '@/base-ui/form'
 export const searchFormConfig: IForm = {
   formItems: [
     {
-      filed: 'id',
-      type: 'input',
-      label: 'id',
-      placeholder: '请输入id'
-    },
-    {
       filed: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '菜单名称',
+      placeholder: '请输入菜单名称'
     },
     {
-      filed: 'realname',
+      filed: 'url',
       type: 'input',
-      label: '真实姓名',
-      placeholder: '请输入真实姓名'
+      label: '菜单url',
+      placeholder: '请输入菜单url'
     },
     {
-      filed: 'cellphone',
-      type: 'input',
-      label: '电话号码',
-      placeholder: '请输入电话号码'
-    },
-    {
-      filed: 'enable',
+      filed: 'type',
       type: 'select',
-      label: '用户状态',
-      placeholder: '请选择用户状态',
+      label: '菜单类型',
+      placeholder: '请选择菜单类型',
       options: [
-        { title: '启用', value: 1 },
-        { title: '禁用', value: 0 }
+        { title: '一级菜单', value: 1 },
+        { title: '二级菜单', value: 2 }
       ]
     },
     {

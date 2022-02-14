@@ -9,19 +9,27 @@
           <el-col v-bind:="colLayout">
             <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type ==='password'">
-                <el-input :placeholder="item.placeholder" v-bind="item.otherOptions" :show-password="item.type === 'password'" v-model="formData[`${item.filed}`]">
+                <el-input :placeholder="item.placeholder" v-bind="item.otherOptions"
+                  :show-password="item.type === 'password'"
+                  :model-value="modelValue[`${item.filed}`]"
+                  @update:modelValue="handleValueChange($event, item.filed)">
 
                 </el-input>
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder" v-bind="item.otherOptions" style="width: 100%" v-model="formData[`${item.filed}`]">
-                  <el-option v-for="option in item.options" :key="option.value" :value="option.value" :label="option.title">
+                <el-select :placeholder="item.placeholder" v-bind="item.otherOptions"
+                  style="width: 100%" :model-value="modelValue[`${item.filed}`]"
+                  @update:modelValue="handleValueChange($event, item.filed)">
+                  <el-option v-for="option in item.options" :key="option.value"
+                    :value="option.value" :label="option.title">
                     {{option.title}}
                   </el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker style="width: 100%" v-bind="item.otherOptions" v-model="formData[`${item.filed}`]">
+                <el-date-picker style="width: 100%" v-bind="item.otherOptions"
+                  :model-value="modelValue[`${item.filed}`]"
+                  @update:modelValue="handleValueChange($event, item.filed)">
 
                 </el-date-picker>
               </template>
@@ -38,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch, computed } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IFormItem } from '../types'
 
 export default defineComponent({
@@ -69,22 +77,13 @@ export default defineComponent({
       })
     }
   },
-  emits: ['update: modelValue'],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue })
-
-    watch(
-      formData,
-      (newValue) => {
-        console.log(newValue)
-        emit('update: modelValue', newValue)
-      },
-      {
-        deep: true
-      }
-    )
+    const handleValueChange = (value: any, filed: string) => {
+      emit('update:modelValue', { ...props.modelValue, [filed]: value })
+    }
     return {
-      formData
+      handleValueChange
     }
   }
 })

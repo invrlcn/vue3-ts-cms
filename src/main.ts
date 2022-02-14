@@ -8,7 +8,7 @@ import 'normalize.css'
 import './assets/css/index.less'
 import { setupStore } from './store'
 
-import cnRequest from './service'
+// import cnRequest from './service'
 // import './service/axios_demo'
 
 // console.log(process.env.VUE_APP_BASE_URL)

@@ -15,7 +15,7 @@ export const searchFormConfig: IForm = {
       placeholder: '请输入权限介绍'
     },
     {
-      filed: 'createTime',
+      filed: 'createAt',
       type: 'datepicker',
       label: '创建时间',
       otherOptions: {
