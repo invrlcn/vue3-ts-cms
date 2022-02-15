@@ -8,7 +8,8 @@
         </div>
       </slot>
     </div>
-    <el-table :data="listData" border style="width: 100%" @selection-change="handleChangeSelect">
+    <el-table :data="listData" border style="width: 100%" @selection-change="handleChangeSelect"
+      v-bind="childrenProps">
       <el-table-column v-if="showSelectColumn" type="selection" width="50" />
       <el-table-column v-if="showIndexColumn" type="index" width="80" label="序号" align="center">
       </el-table-column>
@@ -26,8 +27,8 @@
       <slot name="footer">
         <el-pagination :currentPage="page.currentPage" :page-size="page.pageSize"
           :page-sizes="[10, 20, 30]" layout="total, sizes, prev, pager, next, jumper"
-          :total="countData.length" @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          :total="countData" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          v-if="showFooter">
         </el-pagination>
       </slot>
     </div>
@@ -48,7 +49,7 @@ export default defineComponent({
       required: true
     },
     countData: {
-      type: Array,
+      type: Number,
       required: true
     },
     page: {
@@ -66,6 +67,14 @@ export default defineComponent({
     showSelectColumn: {
       type: Boolean,
       default: false
+    },
+    childrenProps: {
+      type: Object,
+      default: () => ({})
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     }
   },
   emits: ['selectionChange', 'update:page'],
@@ -110,6 +119,6 @@ export default defineComponent({
 
 .footer {
   margin-top: 15px;
-  padding-left: 1150px;
+  padding-left: 950px;
 }
 </style>

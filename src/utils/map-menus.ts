@@ -42,6 +42,7 @@ export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
   return breadcrumbs
 }
 
+// /main/system/role  -> type === 2 对应menu
 export function pathMapToMenu(
   userMenus: any[],
   currentPath: string,
@@ -59,6 +60,22 @@ export function pathMapToMenu(
       return menu
     }
   }
+}
+
+// 菜单按钮权限
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permissions: string[] = []
+  const _recurseGetPermission = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? [])
+      } else if (menu.type === 3) {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(userMenus)
+  return permissions
 }
 
 export { firstMenu }

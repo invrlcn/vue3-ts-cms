@@ -4,7 +4,7 @@
       v-model:page="pageInfo">
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" size="default">{{BtnTitle}}</el-button>
+        <el-button type="primary" size="default" v-if="isCreate">{{BtnTitle}}</el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
@@ -16,8 +16,8 @@
       </template>
       <template #handler>
         <div class="handle-btns">
-          <el-button size="small" type="text">编辑</el-button>
-          <el-button size="small" type="text">删除</el-button>
+          <el-button size="small" type="text" v-if="isUpdate">编辑</el-button>
+          <el-button size="small" type="text" v-if="isDelete">删除</el-button>
         </div>
       </template>
       <!-- 在page-content中动态插入剩余的插槽 -->
@@ -34,6 +34,7 @@
 import { defineComponent, computed, ref, watch } from 'vue'
 import CnTable from '@/base-ui/table'
 import { useStore } from '@/store'
+import { usePermission } from '@/hooks/usePermission'
 
 export default defineComponent({
   components: {
@@ -51,11 +52,17 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
+    // 获取操作的权限
+    const isCreate = usePermission(props.pageName, 'create')
+    const isUpdate = usePermission(props.pageName, 'update')
+    const isDelete = usePermission(props.pageName, 'delete')
+    const isQuery = usePermission(props.pageName, 'query')
     // 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
     watch(pageInfo, () => getPageData())
     // 发送请求
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return 
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -92,7 +99,10 @@ export default defineComponent({
         BtnTitle = '新增角色'
         break
       case 'goods':
-        BtnTitle = '新建商品'
+        BtnTitle = '新增商品'
+        break
+      case 'menu':
+        BtnTitle = '新增菜单'
         break
       default:
         break
@@ -104,6 +114,9 @@ export default defineComponent({
       pageInfo,
       BtnTitle,
       otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete,
       getPageData
     }
   }

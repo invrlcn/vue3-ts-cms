@@ -12,7 +12,9 @@ const systemModule: Module<ISystemState, IRootState> = {
       roleList: [],
       roleCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   getters: {
@@ -35,7 +37,7 @@ const systemModule: Module<ISystemState, IRootState> = {
     pageCountData(state) {
       return (pageName: string) => {
         // 拼接
-        return (state as any)[`${pageName}List`]
+        return (state as any)[`${pageName}Count`]
       }
     }
   },
@@ -57,6 +59,12 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     changeGoodsCount(state, goodsCount: number) {
       state.goodsCount = goodsCount
+    },
+    changeMenuList(state, menuList: any[]) {
+      state.menuList = menuList
+    },
+    changeMenuCount(state, menuCount: number) {
+      state.menuCount = menuCount
     }
   },
   actions: {
