@@ -4,7 +4,9 @@
       v-model:page="pageInfo">
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" size="default" v-if="isCreate">{{BtnTitle}}</el-button>
+        <el-button type="primary" size="default" v-if="isCreate"
+          @click="handleAddClick(title='新增用户')">
+          {{BtnTitle}}</el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
@@ -14,10 +16,14 @@
       <template #updateAt="scope">
         <span>{{$filters.formatTime(scope.row.updateAt)}}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button size="small" type="text" v-if="isUpdate">编辑</el-button>
-          <el-button size="small" type="text" v-if="isDelete">删除</el-button>
+          <el-button size="small" type="text" v-if="isUpdate"
+            @click="handleEditClick(scope.row, title='编辑用户')">编辑
+          </el-button>
+          <el-button size="small" type="text" v-if="isDelete" @click="handleDeleteClick(scope.row)">
+            删除
+          </el-button>
         </div>
       </template>
       <!-- 在page-content中动态插入剩余的插槽 -->
@@ -35,6 +41,7 @@ import { defineComponent, computed, ref, watch } from 'vue'
 import CnTable from '@/base-ui/table'
 import { useStore } from '@/store'
 import { usePermission } from '@/hooks/usePermission'
+import { ElMessageBox } from 'element-plus/lib/components'
 
 export default defineComponent({
   components: {
@@ -50,7 +57,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['addClick', 'editClick', 'deleteClick'],
+  setup(props, { emit }) {
     const store = useStore()
     // 获取操作的权限
     const isCreate = usePermission(props.pageName, 'create')
@@ -58,15 +66,15 @@ export default defineComponent({
     const isDelete = usePermission(props.pageName, 'delete')
     const isQuery = usePermission(props.pageName, 'query')
     // 双向绑定pageInfo
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
     // 发送请求
     const getPageData = (queryInfo: any = {}) => {
-      if (!isQuery) return 
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...queryInfo
         }
@@ -89,6 +97,25 @@ export default defineComponent({
         return true
       }
     )
+    // 新增、编辑、删除
+    const handleAddClick = (title: string) => {
+      emit('addClick', title)
+    }
+    const handleEditClick = (item: any, title: string) => {
+      emit('editClick', item, title)
+    }
+    const handleDeleteClick = (item: any) => {
+      ElMessageBox.confirm('确认删除该条数据？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '返回',
+        type: 'warning'
+      }).then(() => {
+        store.dispatch('system/deletePageDataAction', {
+          pageName: props.pageName,
+          id: item.id
+        })
+      })
+    }
     // 新增按钮
     let BtnTitle = ''
     switch (props.pageName) {
@@ -117,7 +144,10 @@ export default defineComponent({
       isCreate,
       isUpdate,
       isDelete,
-      getPageData
+      getPageData,
+      handleAddClick,
+      handleEditClick,
+      handleDeleteClick
     }
   }
 })

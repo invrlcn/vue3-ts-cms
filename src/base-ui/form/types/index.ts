@@ -9,13 +9,15 @@ interface IFormItem {
   // 针对select
   options?: any[],
   // 针对特殊的属性
-  otherOptions?: any
+  otherOptions?: any,
+  // 密码框是否隐藏
+  isHidden?: boolean
 }
 interface IForm {
   formItems: IFormItem[]
   labelWidth?: string
   colLayout?: any
-  itemLayout?: any
+  itemStyle?: any
 }
 
 export { IFormItem, IForm }
