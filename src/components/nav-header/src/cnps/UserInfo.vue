@@ -2,7 +2,8 @@
   <div class="user-info">
     <el-dropdown @command="goLogin">
       <span class="el-dropdown-link">
-        <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+        <el-avatar size="small"
+          src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
         <span class="user-name">{{ userInfo }}</span>
       </span>
       <template #dropdown>
@@ -24,6 +25,7 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 import { CircleClose } from '@element-plus/icons-vue'
+import cache from '@/utils/cache'
 
 export default defineComponent({
   components: {
@@ -34,7 +36,8 @@ export default defineComponent({
     const userInfo = computed(() => store.state.login.userInfo.name)
     const router = useRouter()
     const goLogin = () => {
-      router.push('/login')
+      cache.deleteCache('token')
+      router.push('/main')
     }
 
     return {

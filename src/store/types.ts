@@ -3,7 +3,8 @@ import type { ISystemState } from './main/system/types'
 export interface IRootState {
   name: string,
   entireDepartment: any[],
-  entireRole: any[]
+  entireRole: any[],
+  entireMenu: any[]
 }
 
 export interface IRootWithModule {

@@ -38,7 +38,6 @@ export default defineComponent({
       )
       if (passwordItem) {
         passwordItem.isHidden = false
-        console.log(passwordItem)
       }
     }
     const editCallback = () => {
@@ -47,7 +46,6 @@ export default defineComponent({
       )
       if (passwordItem) {
         passwordItem.isHidden = true
-        console.log(passwordItem)
       }
     }
 
@@ -70,13 +68,10 @@ export default defineComponent({
     })
 
     // 调用hook获取公共变量和函数
-    const [
-      modalRef,
-      defaultInfo,
-      handleAddData,
-      handleEditData,
-      handleDeleteData
-    ] = usePageModal(addCallback, editCallback)
+    const [modalRef, defaultInfo, handleAddData, handleEditData] = usePageModal(
+      addCallback,
+      editCallback
+    )
     return {
       searchFormConfig,
       contentTableConfig,

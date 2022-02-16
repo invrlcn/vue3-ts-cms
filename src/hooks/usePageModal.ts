@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import type PageModal from '@/components/page-modal'
 
-type CallbackFn = () => void
+type CallbackFn = (item?: any) => void
 
 export function usePageModal(addCb?: CallbackFn, editCb?: CallbackFn) {
   const modalRef = ref<InstanceType<typeof PageModal>>()
@@ -23,7 +23,7 @@ export function usePageModal(addCb?: CallbackFn, editCb?: CallbackFn) {
     if (modalRef.value) {
       modalRef.value.title = title
     }
-    editCb && editCb()
+    editCb && editCb(item)
   }
   return [modalRef, defaultInfo, handleAddData, handleEditData]
 }
